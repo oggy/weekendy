@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>In what languages do people code on the weekend?</title>
+  <meta charset="utf-8">
+  <meta name="description" content="In what languages do people code on the weekend?">
+  <meta name="author" content="Some Data Monkey">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>In what languages do people code on the weekend?</h1>
+    <h2>On GitHub</h2>
+    <p>Some Data Monkey<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <article data-timings="">
+    <style>
+em { font-style: italic; }
+strong { font-weight: bold; }
+</style>
+
+<h2>What&#39;s an interesting language to study?</h2>
+
+<p><br /></p>
+
+<p>Perhaps:</p>
+
+<ul>
+<li>One which people are using on GitHub.</li>
+<li>One which people are playing with in their spare time (on the weekend).</li>
+<li>One with a decently active community -- not too fringe.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<p><center>
+<strong>This calls for an app!</strong>
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Method</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Take 1 month of recent events.</li>
+<li>Aggregate the number of users pushing to repos of each language.</li>
+<li>Filter out very fringe languages (hard to extrapolate).</li>
+</ul>
+
+<pre><code class="r">data &lt;- read.table(&#39;../counts.txt&#39;, sep=&#39;,&#39;, comment.char=&#39;&#39;, header=TRUE)
+head(data[data$week == 1 &amp; data$total_users &gt;= 200,])
+</code></pre>
+
+<pre><code>##     week    language weekend_users total_users
+## 20     1        VimL           964        3756
+## 25     1        Ruby          5175       18176
+## 76     1      Groovy           218         784
+## 82     1        Perl           583        2210
+## 129    1        Rust           125         311
+## 148    1 Common Lisp            63         200
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Scoring</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Raw counts aren&#39;t interesting. Of course Javascript is at the top!</li>
+<li>Normalize weekend counts by full-week counts to get a &quot;weekendiness&quot; score.</li>
+</ul>
+
+<pre><code class="r">slice &lt;- data[data$week == 1 &amp; data$total_users &gt;= 200,]
+slice$score &lt;- slice$weekend_users / slice$total_users
+head(slice[order(-slice$score),])
+</code></pre>
+
+<pre><code>##     week   language weekend_users total_users  score
+## 129    1       Rust           125         311 0.4019
+## 649    1 Processing           135         362 0.3729
+## 383    1        Lua           480        1307 0.3673
+## 500    1    Haskell           425        1234 0.3444
+## 434    1     Scheme            75         223 0.3363
+## 372    1 TypeScript           200         598 0.3344
+</code></pre>
+
+<ul>
+<li>All these languages look pretty interesting!</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Am I normal?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>And look, R is #1 in 2 of the 4 weeks of June.</p>
+
+<p><img src="top_langs.png" alt="Go R!"></p>
+
+<p>So creating data presentations in R might be a totally normal thing to do on the
+weekend. <strong>Yes!</strong></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title=''>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Method'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Scoring'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Am I normal?'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
